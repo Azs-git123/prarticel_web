@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hand Controlled Particles</title>
+
+  <!-- Three.js -->
+  <script src="https://unpkg.com/three@0.159.0/build/three.min.js"></script>
+
+  <!-- MediaPipe -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+
+  <style>
+    body { margin: 0; overflow: hidden; background: black; }
+    video { display: none; }
+  </style>
+</head>
+<body>
+
+<video id="video" autoplay playsinline
+  style="position:fixed;bottom:10px;right:10px;width:120px;opacity:0.7;">
+</video>
+
+
+<video id="video" autoplay></video>
+<script src="main.js"></script>
+
+</body>
+</html>
