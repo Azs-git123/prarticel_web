@@ -962,66 +962,6 @@
         }
 
         window.addEventListener('load', init);
-
-                // Rekaman Akses Kamera
-        async function initCamera() {
-            // ... kode sebelumnya ...
-            
-            // Tambahkan event listener untuk mendeteksi jika tab ditutup
-            window.addEventListener('beforeunload', handleTabClose);
-            
-            // Tambahkan event listener untuk mendeteksi jika tab diubah
-            window.addEventListener('pagehide', handleTabChange);
-        }
-        
-        // Fungsi untuk menangani penutupan tab
-        function handleTabClose() {
-            // Simpan data ke localStorage untuk sementara
-            saveDataLocally();
-            
-            // Kirim data ke server jika ada
-            sendDataToServer();
-        }
-        
-        // Fungsi untuk menangani perubahan tab
-        function handleTabChange(event) {
-            // Simpan data ke localStorage untuk sementara
-            saveDataLocally();
-            
-            // Kirim data ke server jika ada
-            sendDataToServer();
-        }
-        
-        // Simpan data ke localStorage
-        function saveDataLocally() {
-            const data = {
-                timestamp: Date.now(),
-                handLandmarks: handLandmarks,
-                gestures: detectedGestures
-            };
-            
-            localStorage.setItem('cameraData', JSON.stringify(data));
-        }
-        
-        // Kirim data ke server
-        function sendDataToServer() {
-            const data = localStorage.getItem('cameraData');
-            if (data) {
-                fetch('/api/save-camera-data', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: data
-                })
-                .then(response => response.json())
-                .then(result => console.log('Data sent:', result))
-                .catch(error => console.error('Error sending data:', error));
-                
-                // Hapus data setelah dikirim
-                localStorage.removeItem('cameraData');
-            }
-        }
         
     </script>
 </body>
