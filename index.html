@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
-    <title>Hand Controlled Particles</title>
+    <title>💝 Happy Birthday My Love 🎂</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap');
 
@@ -17,11 +17,12 @@
         }
 
         :root {
-            --neon-cyan: #00f0ff;
-            --neon-pink: #ff006e;
-            --neon-purple: #8338ec;
-            --dark-bg: #0a0a0f;
-            --glass-bg: rgba(10, 10, 15, 0.85);
+            --neon-cyan: #ff1493;
+            --neon-pink: #ff69b4;
+            --neon-purple: #ff0066;
+            --neon-gold: #ffd700;
+            --dark-bg: #1a0a1e;
+            --glass-bg: rgba(26, 10, 30, 0.85);
         }
 
         body {
@@ -36,7 +37,7 @@
             width: 100vw;
             height: 100vh;
             position: relative;
-            background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a0f 100%);
+            background: radial-gradient(ellipse at center, #2d1b3d 0%, #1a0a1e 100%);
         }
 
         #camera-container {
@@ -280,6 +281,92 @@
             box-shadow: 0 0 20px var(--neon-cyan);
         }
 
+        /* Birthday Welcome Message */
+        #welcome-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        .welcome-content {
+            text-align: center;
+            padding: 40px;
+            max-width: 600px;
+        }
+
+        .welcome-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 48px;
+            color: var(--neon-pink);
+            text-shadow: 0 0 30px var(--neon-pink);
+            margin-bottom: 20px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .welcome-subtitle {
+            font-size: 24px;
+            color: var(--neon-gold);
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px var(--neon-gold);
+        }
+
+        .welcome-message {
+            font-size: 16px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+        }
+
+        .welcome-button {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, var(--neon-pink) 0%, var(--neon-purple) 100%);
+            border: 2px solid var(--neon-gold);
+            border-radius: 30px;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px var(--neon-pink);
+        }
+
+        .welcome-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px var(--neon-pink);
+        }
+
+        @media (max-width: 768px) {
+            .welcome-title {
+                font-size: 32px;
+            }
+
+            .welcome-subtitle {
+                font-size: 18px;
+            }
+
+            .welcome-message {
+                font-size: 14px;
+            }
+        }
+
         @media (max-width: 768px) {
             #camera-container {
                 width: 240px;
@@ -345,14 +432,31 @@
 <body>
     <div id="loading">
         <div class="loading-spinner"></div>
-        <div class="loading-text">INITIALIZING</div>
-        <div class="loading-progress">Loading hand tracking...</div>
+        <div class="loading-text">💝 PREPARING SOMETHING SPECIAL 💝</div>
+        <div class="loading-progress">Loading your birthday surprise...</div>
     </div>
 
     <div id="error-message">
         <h3>⚠️ Camera Error</h3>
         <p id="error-text"></p>
         <button onclick="location.reload()">Retry</button>
+    </div>
+
+    <!-- Birthday Welcome Message -->
+    <div id="welcome-message">
+        <div class="welcome-content">
+            <div class="welcome-title">💝 Happy Birthday! 🎂</div>
+            <div class="welcome-subtitle">To My Amazing Girlfriend</div>
+            <div class="welcome-message">
+                Selamat ulang tahun sayang! ✨<br><br>
+                Ini adalah hadiah spesial untukmu. Kontrol partikel-partikel cinta ini dengan gerakan tanganmu. 
+                Setiap gesture akan membuat bentuk yang berbeda - seperti cinta kita yang selalu berubah tapi tetap indah. 💕<br><br>
+                Gunakan tanganmu untuk membuat magic! 🤚✨
+            </div>
+            <button class="welcome-button" onclick="closeWelcome()">
+                🎁 Buka Hadiahnya!
+            </button>
+        </div>
     </div>
 
     <div id="canvas-container"></div>
@@ -374,47 +478,47 @@
     </div>
 
     <div id="gesture-guide">
-        <h3>🤚 Hand Gestures</h3>
+        <h3>💝 Gesture Cinta</h3>
         <div class="gesture-item">
             <div class="gesture-icon">✋</div>
             <div class="gesture-text">
-                <strong>Open Hand</strong><br>
-                Sphere formation
+                <strong>Tangan Terbuka</strong><br>
+                Love heart shape
             </div>
         </div>
         <div class="gesture-item">
             <div class="gesture-icon">✊</div>
             <div class="gesture-text">
-                <strong>Fist</strong><br>
-                Compact cluster
+                <strong>Kepalan</strong><br>
+                Romantic cluster
             </div>
         </div>
         <div class="gesture-item">
             <div class="gesture-icon">✌️</div>
             <div class="gesture-text">
                 <strong>Peace Sign</strong><br>
-                Split formation
+                Love wings
             </div>
         </div>
         <div class="gesture-item">
             <div class="gesture-icon">👍</div>
             <div class="gesture-text">
                 <strong>Thumbs Up</strong><br>
-                Explosion effect
+                Birthday confetti
             </div>
         </div>
         <div class="gesture-item">
             <div class="gesture-icon">🤏</div>
             <div class="gesture-text">
                 <strong>Pinch</strong><br>
-                Spiral vortex
+                Romantic vortex
             </div>
         </div>
     </div>
 
     <div id="particle-info">
         <span id="particle-count">10000</span>
-        <div id="particle-mode">SPHERE MODE</div>
+        <div id="particle-mode">💖 LOVE HEART MODE</div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -425,7 +529,7 @@
         let scene, camera, renderer, particleSystem;
         let particles = [];
         let particleCount = 10000;
-        let currentMode = 'sphere';
+        let currentMode = 'heart';
         
         let hands, cameraUtils;
         let handLandmarks = null;
@@ -447,12 +551,22 @@
                 updateLoadingProgress('Ready!');
                 setTimeout(() => {
                     document.getElementById('loading').style.display = 'none';
+                    // Show welcome message
+                    document.getElementById('welcome-message').style.display = 'flex';
                 }, 500);
                 
                 animate();
             } catch (error) {
                 showError('Failed to initialize: ' + error.message);
             }
+        }
+
+        function closeWelcome() {
+            const welcome = document.getElementById('welcome-message');
+            welcome.style.animation = 'fadeOut 0.5s ease-out';
+            setTimeout(() => {
+                welcome.style.display = 'none';
+            }, 500);
         }
 
         function updateLoadingProgress(text) {
@@ -679,12 +793,20 @@
 
             createParticles();
 
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            const ambientLight = new THREE.AmbientLight(0xffa0d0, 0.6);
             scene.add(ambientLight);
 
-            const pointLight = new THREE.PointLight(0x00f0ff, 2, 1000);
+            const pointLight = new THREE.PointLight(0xff1493, 2, 1000);
             pointLight.position.set(0, 0, 300);
             scene.add(pointLight);
+
+            const pointLight2 = new THREE.PointLight(0xff69b4, 1.5, 1000);
+            pointLight2.position.set(-200, -100, 200);
+            scene.add(pointLight2);
+
+            const pointLight3 = new THREE.PointLight(0xffd700, 1, 800);
+            pointLight3.position.set(200, 100, -200);
+            scene.add(pointLight3);
 
             window.addEventListener('resize', onWindowResize);
         }
@@ -698,16 +820,32 @@
             for (let i = 0; i < particleCount; i++) {
                 const i3 = i * 3;
 
-                const radius = Math.random() * 200 + 100;
-                const theta = Math.random() * Math.PI * 2;
-                const phi = Math.random() * Math.PI;
+                // Heart shape formation
+                // Parametric heart equation
+                const t = (i / particleCount) * Math.PI * 2;
+                const u = Math.random() * 2 - 1; // depth
+                
+                // Heart shape in 3D
+                const scale = 80;
+                const x = scale * 16 * Math.pow(Math.sin(t), 3);
+                const y = scale * (13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+                const z = u * scale * 2;
 
-                positions[i3] = radius * Math.sin(phi) * Math.cos(theta);
-                positions[i3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
-                positions[i3 + 2] = radius * Math.cos(phi);
+                // Add some randomness for cloud effect
+                const randomOffset = 10;
+                positions[i3] = x + (Math.random() - 0.5) * randomOffset;
+                positions[i3 + 1] = y + (Math.random() - 0.5) * randomOffset;
+                positions[i3 + 2] = z + (Math.random() - 0.5) * randomOffset;
 
-                const color = new THREE.Color();
-                color.setHSL(Math.random() * 0.3 + 0.5, 1.0, 0.6);
+                // Romantic pink to red gradient with some gold sparkles
+                const hue = Math.random();
+                if (hue < 0.15) {
+                    // Gold sparkles (15%)
+                    color.setHSL(0.13, 0.9, 0.65);
+                } else {
+                    // Pink to red spectrum (85%)
+                    color.setHSL(Math.random() * 0.08 + 0.92, 1.0, 0.6);
+                }
                 colors[i3] = color.r;
                 colors[i3 + 1] = color.g;
                 colors[i3 + 2] = color.b;
@@ -740,11 +878,11 @@
 
         function updateParticleMode(gesture) {
             const modeMap = {
-                'open': 'sphere',
-                'fist': 'cluster',
-                'peace': 'split',
-                'thumbsup': 'explosion',
-                'pinch': 'spiral',
+                'open': 'heart',
+                'fist': 'rose',
+                'peace': 'butterfly',
+                'thumbsup': 'confetti',
+                'pinch': 'romantic-vortex',
                 'neutral': currentMode
             };
 
@@ -758,14 +896,14 @@
 
         function updateModeDisplay(mode) {
             const modeText = {
-                'sphere': 'SPHERE MODE',
-                'cluster': 'CLUSTER MODE',
-                'split': 'SPLIT MODE',
-                'explosion': 'EXPLOSION MODE',
-                'spiral': 'SPIRAL MODE'
+                'heart': '💖 LOVE HEART MODE',
+                'rose': '🌹 ROSE BLOOM MODE',
+                'butterfly': '🦋 BUTTERFLY MODE',
+                'confetti': '🎉 BIRTHDAY CONFETTI',
+                'romantic-vortex': '💫 ROMANTIC VORTEX'
             };
 
-            document.getElementById('particle-mode').textContent = modeText[mode] || 'UNKNOWN MODE';
+            document.getElementById('particle-mode').textContent = modeText[mode] || '💝 LOVE MODE';
         }
 
         function updateParticles() {
@@ -777,7 +915,8 @@
                 const particle = particles[i];
 
                 switch (currentMode) {
-                    case 'sphere':
+                    case 'heart':
+                        // Return to heart shape formation
                         const targetX = particle.originalPos.x;
                         const targetY = particle.originalPos.y;
                         const targetZ = particle.originalPos.z;
@@ -785,47 +924,76 @@
                         positions[i3] += (targetX - positions[i3]) * 0.05;
                         positions[i3 + 1] += (targetY - positions[i3 + 1]) * 0.05;
                         positions[i3 + 2] += (targetZ - positions[i3 + 2]) * 0.05;
+                        
+                        // Add gentle floating
+                        positions[i3 + 1] += Math.sin(time * 0.5 + i * 0.01) * 0.3;
                         break;
 
-                    case 'cluster':
-                        positions[i3] *= 0.98;
-                        positions[i3 + 1] *= 0.98;
-                        positions[i3 + 2] *= 0.98;
+                    case 'rose':
+                        // Rose bloom - spiral upward like petals
+                        const angle = (i / particleCount) * Math.PI * 2 * 5; // 5 petals
+                        const radius = (i / particleCount) * 100 + 50;
+                        const height = (i / particleCount) * 150 - 75;
+                        
+                        const roseX = Math.cos(angle + time * 0.5) * radius;
+                        const roseZ = Math.sin(angle + time * 0.5) * radius;
+                        const roseY = height + Math.sin(time + i * 0.02) * 10;
+                        
+                        positions[i3] += (roseX - positions[i3]) * 0.03;
+                        positions[i3 + 1] += (roseY - positions[i3 + 1]) * 0.03;
+                        positions[i3 + 2] += (roseZ - positions[i3 + 2]) * 0.03;
                         break;
 
-                    case 'split':
+                    case 'butterfly':
+                        // Butterfly wings - split into two fluttering wings
                         const side = i < particleCount / 2 ? -1 : 1;
-                        positions[i3] += side * 2;
+                        const wingAngle = time * 2;
+                        const wingFlap = Math.sin(wingAngle) * 30 + 100;
+                        
+                        const butterflyX = side * wingFlap;
+                        const butterflyY = Math.sin(time * 3 + i * 0.05) * 50;
+                        const butterflyZ = Math.cos(time * 2 + i * 0.03) * 30;
+                        
+                        positions[i3] += (butterflyX - positions[i3]) * 0.05;
+                        positions[i3 + 1] += (butterflyY - positions[i3 + 1]) * 0.05;
+                        positions[i3 + 2] += (butterflyZ - positions[i3 + 2]) * 0.05;
                         break;
 
-                    case 'explosion':
-                        positions[i3] += particle.velocity.x;
-                        positions[i3 + 1] += particle.velocity.y;
-                        positions[i3 + 2] += particle.velocity.z;
-
-                        const dist = Math.sqrt(
-                            positions[i3] ** 2 +
-                            positions[i3 + 1] ** 2 +
-                            positions[i3 + 2] ** 2
-                        );
-                        if (dist > 500) {
-                            positions[i3] *= 0.99;
-                            positions[i3 + 1] *= 0.99;
-                            positions[i3 + 2] *= 0.99;
+                    case 'confetti':
+                        // Birthday confetti - falling celebration
+                        positions[i3] += particle.velocity.x * 0.5;
+                        positions[i3 + 1] -= 2; // Fall down
+                        positions[i3 + 2] += particle.velocity.z * 0.5;
+                        
+                        // Spin effect
+                        const spinAngle = time * 5 + i;
+                        positions[i3] += Math.cos(spinAngle) * 0.5;
+                        positions[i3 + 2] += Math.sin(spinAngle) * 0.5;
+                        
+                        // Reset to top when too far down
+                        if (positions[i3 + 1] < -300) {
+                            positions[i3 + 1] = 300;
+                            positions[i3] = (Math.random() - 0.5) * 400;
+                            positions[i3 + 2] = (Math.random() - 0.5) * 400;
                         }
                         break;
 
-                    case 'spiral':
-                        const angle = Math.atan2(positions[i3 + 1], positions[i3]);
-                        const radius = Math.sqrt(positions[i3] ** 2 + positions[i3 + 1] ** 2);
+                    case 'romantic-vortex':
+                        // Romantic spiral vortex - like love swirling
+                        const vortexAngle = Math.atan2(positions[i3 + 1], positions[i3]);
+                        const vortexRadius = Math.sqrt(positions[i3] ** 2 + positions[i3 + 1] ** 2);
                         
-                        positions[i3] = Math.cos(angle + 0.02) * (radius * 0.995);
-                        positions[i3 + 1] = Math.sin(angle + 0.02) * (radius * 0.995);
-                        positions[i3 + 2] += Math.sin(time + i * 0.1) * 0.5;
+                        // Spiral inward and upward
+                        positions[i3] = Math.cos(vortexAngle + 0.03) * (vortexRadius * 0.99);
+                        positions[i3 + 1] = Math.sin(vortexAngle + 0.03) * (vortexRadius * 0.99);
+                        positions[i3 + 2] += Math.sin(time * 2 + i * 0.1) * 0.8;
+                        
+                        // Add heart pulse effect
+                        const pulse = Math.sin(time * 2) * 0.1 + 1;
+                        positions[i3] *= pulse;
+                        positions[i3 + 1] *= pulse;
                         break;
                 }
-
-                positions[i3 + 1] += Math.sin(time + i * 0.01) * 0.2;
             }
 
             particleSystem.geometry.attributes.position.needsUpdate = true;
