@@ -1,30 +1,490 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Hand Controlled Particles</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Particle Controller 3D</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-  <!-- Three.js -->
-  <script src="https://unpkg.com/three@0.159.0/build/three.min.js"></script>
+        body {
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            touch-action: none;
+        }
 
-  <!-- MediaPipe -->
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
 
-  <style>
-    body { margin: 0; overflow: hidden; background: black; }
-    video { display: none; }
-  </style>
+        /* Preview Kamera */
+        #camera-preview {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 120px;
+            height: 160px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        #camera-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scaleX(-1); /* Mirror effect */
+        }
+
+        #camera-toggle {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0, 0, 0, 0.6);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 101;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Kontrol Panel */
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            border-radius: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            z-index: 100;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .control-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+
+        .control-btn.active {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        /* Loading */
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+            z-index: 200;
+            text-align: center;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Info */
+        #info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-size: 12px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 15px;
+            border-radius: 8px;
+            z-index: 100;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 600px) {
+            #camera-preview {
+                width: 100px;
+                height: 133px;
+                top: 15px;
+                right: 15px;
+            }
+
+            #controls {
+                bottom: 15px;
+                padding: 12px 15px;
+                gap: 10px;
+            }
+
+            .control-btn {
+                padding: 10px 15px;
+                font-size: 12px;
+            }
+
+            #info {
+                font-size: 10px;
+                padding: 8px 12px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div id="loading">
+        <div class="spinner"></div>
+        <div>Loading...</div>
+    </div>
 
-<video id="video" autoplay playsinline
-  style="position:fixed;bottom:10px;right:10px;width:120px;opacity:0.7;">
-</video>
+    <div id="canvas-container"></div>
 
+    <!-- Camera Preview -->
+    <div id="camera-preview">
+        <button id="camera-toggle">📷</button>
+        <video id="camera-video" autoplay playsinline muted></video>
+    </div>
 
-<video id="video" autoplay></video>
-<script src="main.js"></script>
+    <!-- Controls -->
+    <div id="controls">
+        <button class="control-btn" id="explosion-btn">💥 Explode</button>
+        <button class="control-btn" id="wave-btn">🌊 Wave</button>
+        <button class="control-btn" id="reset-btn">🔄 Reset</button>
+    </div>
 
+    <!-- Info -->
+    <div id="info">
+        Sentuh & geser untuk kontrol<br>
+        Partikel: <span id="particle-count">0</span>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Three.js Setup
+        let scene, camera, renderer, particles, particleSystem;
+        let mouseX = 0, mouseY = 0;
+        let targetX = 0, targetY = 0;
+        let isExplosion = false;
+        let isWave = false;
+        let particleCount = 5000; // Dikurangi untuk performa mobile
+
+        // Camera Setup
+        let video, stream;
+        let isCameraActive = false;
+
+        function init() {
+            // Scene
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x000000, 0.0008);
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(
+                75,
+                window.innerWidth / window.innerHeight,
+                1,
+                1000
+            );
+            camera.position.z = 300;
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ 
+                antialias: false, // Dinonaktifkan untuk performa
+                alpha: true,
+                powerPreference: "high-performance"
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit untuk mobile
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+            // Particles
+            createParticles();
+
+            // Event Listeners
+            setupEventListeners();
+
+            // Hide loading
+            document.getElementById('loading').style.display = 'none';
+
+            // Animate
+            animate();
+        }
+
+        function createParticles() {
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+            const velocities = new Float32Array(particleCount * 3);
+
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                // Posisi awal dalam bentuk sphere
+                const radius = Math.random() * 200 + 50;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.random() * Math.PI;
+
+                positions[i] = radius * Math.sin(phi) * Math.cos(theta);
+                positions[i + 1] = radius * Math.sin(phi) * Math.sin(theta);
+                positions[i + 2] = radius * Math.cos(phi);
+
+                // Warna gradient
+                const color = new THREE.Color();
+                color.setHSL(Math.random() * 0.3 + 0.5, 1.0, 0.5);
+                colors[i] = color.r;
+                colors[i + 1] = color.g;
+                colors[i + 2] = color.b;
+
+                // Velocity
+                velocities[i] = (Math.random() - 0.5) * 0.5;
+                velocities[i + 1] = (Math.random() - 0.5) * 0.5;
+                velocities[i + 2] = (Math.random() - 0.5) * 0.5;
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            particles = { positions, velocities, geometry };
+
+            const material = new THREE.PointsMaterial({
+                size: 2,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending,
+                sizeAttenuation: true
+            });
+
+            particleSystem = new THREE.Points(geometry, material);
+            scene.add(particleSystem);
+
+            document.getElementById('particle-count').textContent = particleCount;
+        }
+
+        function setupEventListeners() {
+            // Touch & Mouse Events
+            const canvas = renderer.domElement;
+
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                mouseX = (touch.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(touch.clientY / window.innerHeight) * 2 + 1;
+            }, { passive: false });
+
+            canvas.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+            });
+
+            // Control Buttons
+            document.getElementById('explosion-btn').addEventListener('click', () => {
+                isExplosion = !isExplosion;
+                document.getElementById('explosion-btn').classList.toggle('active');
+                if (isExplosion) {
+                    explodeParticles();
+                }
+            });
+
+            document.getElementById('wave-btn').addEventListener('click', () => {
+                isWave = !isWave;
+                document.getElementById('wave-btn').classList.toggle('active');
+            });
+
+            document.getElementById('reset-btn').addEventListener('click', () => {
+                resetParticles();
+                isExplosion = false;
+                isWave = false;
+                document.getElementById('explosion-btn').classList.remove('active');
+                document.getElementById('wave-btn').classList.remove('active');
+            });
+
+            // Camera Toggle
+            document.getElementById('camera-toggle').addEventListener('click', toggleCamera);
+
+            // Window Resize
+            window.addEventListener('resize', onWindowResize);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Smooth mouse following
+            targetX += (mouseX - targetX) * 0.05;
+            targetY += (mouseY - targetY) * 0.05;
+
+            // Update particles
+            updateParticles();
+
+            // Rotate particle system
+            particleSystem.rotation.y += 0.001;
+
+            // Camera movement based on mouse
+            camera.position.x += (targetX * 100 - camera.position.x) * 0.05;
+            camera.position.y += (targetY * 100 - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            renderer.render(scene, camera);
+        }
+
+        function updateParticles() {
+            const positions = particles.positions;
+            const velocities = particles.velocities;
+            const time = Date.now() * 0.001;
+
+            for (let i = 0; i < positions.length; i += 3) {
+                if (isWave) {
+                    // Wave effect
+                    const wave = Math.sin(positions[i] * 0.01 + time) * 10;
+                    positions[i + 1] += wave * 0.01;
+                }
+
+                if (!isExplosion) {
+                    // Orbit around center
+                    const angle = Math.atan2(positions[i + 1], positions[i]);
+                    const radius = Math.sqrt(positions[i] ** 2 + positions[i + 1] ** 2);
+                    positions[i] = Math.cos(angle + 0.001) * radius;
+                    positions[i + 1] = Math.sin(angle + 0.001) * radius;
+                } else {
+                    // Explosion effect
+                    positions[i] += velocities[i];
+                    positions[i + 1] += velocities[i + 1];
+                    positions[i + 2] += velocities[i + 2];
+                }
+
+                // Mouse attraction
+                const dx = targetX * 300 - positions[i];
+                const dy = targetY * 300 - positions[i + 1];
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 100) {
+                    positions[i] += dx * 0.01;
+                    positions[i + 1] += dy * 0.01;
+                }
+            }
+
+            particles.geometry.attributes.position.needsUpdate = true;
+        }
+
+        function explodeParticles() {
+            const velocities = particles.velocities;
+            const positions = particles.positions;
+
+            for (let i = 0; i < positions.length; i += 3) {
+                const angle = Math.random() * Math.PI * 2;
+                const power = Math.random() * 5 + 2;
+                velocities[i] = Math.cos(angle) * power;
+                velocities[i + 1] = Math.sin(angle) * power;
+                velocities[i + 2] = (Math.random() - 0.5) * power;
+            }
+        }
+
+        function resetParticles() {
+            const positions = particles.positions;
+
+            for (let i = 0; i < positions.length; i += 3) {
+                const radius = Math.random() * 200 + 50;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.random() * Math.PI;
+
+                positions[i] = radius * Math.sin(phi) * Math.cos(theta);
+                positions[i + 1] = radius * Math.sin(phi) * Math.sin(theta);
+                positions[i + 2] = radius * Math.cos(phi);
+            }
+
+            particles.geometry.attributes.position.needsUpdate = true;
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // Camera Functions
+        async function toggleCamera() {
+            if (!isCameraActive) {
+                await startCamera();
+            } else {
+                stopCamera();
+            }
+        }
+
+        async function startCamera() {
+            try {
+                video = document.getElementById('camera-video');
+                
+                const constraints = {
+                    video: {
+                        facingMode: 'user',
+                        width: { ideal: 320 },
+                        height: { ideal: 240 }
+                    },
+                    audio: false
+                };
+
+                stream = await navigator.mediaDevices.getUserMedia(constraints);
+                video.srcObject = stream;
+                isCameraActive = true;
+                document.getElementById('camera-toggle').textContent = '📷';
+            } catch (err) {
+                console.error('Error accessing camera:', err);
+                alert('Tidak dapat mengakses kamera. Pastikan izin kamera sudah diberikan.');
+            }
+        }
+
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                video.srcObject = null;
+                isCameraActive = false;
+                document.getElementById('camera-toggle').textContent = '📷';
+            }
+        }
+
+        // Initialize
+        init();
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            stopCamera();
+        });
+    </script>
 </body>
 </html>
