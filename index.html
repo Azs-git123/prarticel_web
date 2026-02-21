@@ -281,7 +281,6 @@
             box-shadow: 0 0 20px var(--neon-cyan);
         }
 
-        /* Birthday Welcome Message */
         #welcome-message {
             position: fixed;
             top: 0;
@@ -354,78 +353,32 @@
         }
 
         @media (max-width: 768px) {
-            .welcome-title {
-                font-size: 32px;
-            }
-
-            .welcome-subtitle {
-                font-size: 18px;
-            }
-
-            .welcome-message {
-                font-size: 14px;
-            }
-        }
-
-        @media (max-width: 768px) {
+            .welcome-title { font-size: 32px; }
+            .welcome-subtitle { font-size: 18px; }
+            .welcome-message { font-size: 14px; }
             #camera-container {
-                width: 240px;
-                height: 180px;
-                top: 15px;
-                left: 15px;
+                width: 240px; height: 180px;
+                top: 15px; left: 15px;
             }
-
             #status-bar {
-                top: 205px;
-                left: 15px;
-                min-width: 240px;
-                font-size: 10px;
-                padding: 10px 15px;
+                top: 205px; left: 15px;
+                min-width: 240px; font-size: 10px; padding: 10px 15px;
             }
-
             #gesture-guide {
-                top: 15px;
-                right: 15px;
-                max-width: 200px;
-                padding: 15px;
+                top: 15px; right: 15px;
+                max-width: 200px; padding: 15px;
             }
-
-            #gesture-guide h3 {
-                font-size: 13px;
-            }
-
-            .gesture-item {
-                padding: 8px;
-                margin: 8px 0;
-            }
-
-            .gesture-icon {
-                font-size: 20px;
-                width: 28px;
-            }
-
-            .gesture-text {
-                font-size: 10px;
-            }
-
-            #particle-info {
-                bottom: 15px;
-                padding: 12px 20px;
-            }
-
-            #particle-count {
-                font-size: 24px;
-            }
-
-            #particle-mode {
-                font-size: 10px;
-            }
+            #gesture-guide h3 { font-size: 13px; }
+            .gesture-item { padding: 8px; margin: 8px 0; }
+            .gesture-icon { font-size: 20px; width: 28px; }
+            .gesture-text { font-size: 10px; }
+            #particle-info { bottom: 15px; padding: 12px 20px; }
+            #particle-count { font-size: 24px; }
+            #particle-mode { font-size: 10px; }
         }
 
         @media (max-width: 480px) {
-            #gesture-guide {
-                display: none;
-            }
+            #gesture-guide { display: none; }
         }
     </style>
 </head>
@@ -442,7 +395,6 @@
         <button onclick="location.reload()">Retry</button>
     </div>
 
-    <!-- Birthday Welcome Message -->
     <div id="welcome-message">
         <div class="welcome-content">
             <div class="welcome-title">💝 Happy Birthday! 🎂</div>
@@ -481,38 +433,23 @@
         <h3>💝 Gesture Cinta</h3>
         <div class="gesture-item">
             <div class="gesture-icon">✋</div>
-            <div class="gesture-text">
-                <strong>Tangan Terbuka</strong><br>
-                Love heart shape
-            </div>
+            <div class="gesture-text"><strong>Tangan Terbuka</strong><br>Love heart shape</div>
         </div>
         <div class="gesture-item">
             <div class="gesture-icon">✊</div>
-            <div class="gesture-text">
-                <strong>Kepalan</strong><br>
-                Romantic cluster
-            </div>
+            <div class="gesture-text"><strong>Kepalan</strong><br>Rose Bloom</div>
         </div>
         <div class="gesture-item">
             <div class="gesture-icon">✌️</div>
-            <div class="gesture-text">
-                <strong>Peace Sign</strong><br>
-                Love wings
-            </div>
+            <div class="gesture-text"><strong>Peace Sign</strong><br>Butterfly Wings</div>
         </div>
         <div class="gesture-item">
             <div class="gesture-icon">👍</div>
-            <div class="gesture-text">
-                <strong>Thumbs Up</strong><br>
-                Birthday confetti
-            </div>
+            <div class="gesture-text"><strong>Thumbs Up</strong><br>Birthday Confetti</div>
         </div>
         <div class="gesture-item">
             <div class="gesture-icon">🤏</div>
-            <div class="gesture-text">
-                <strong>Pinch</strong><br>
-                Romantic vortex
-            </div>
+            <div class="gesture-text"><strong>Pinch</strong><br>Pulse Vortex</div>
         </div>
     </div>
 
@@ -551,7 +488,6 @@
                 updateLoadingProgress('Ready!');
                 setTimeout(() => {
                     document.getElementById('loading').style.display = 'none';
-                    // Show welcome message
                     document.getElementById('welcome-message').style.display = 'flex';
                 }, 500);
                 
@@ -820,31 +756,25 @@
             for (let i = 0; i < particleCount; i++) {
                 const i3 = i * 3;
 
-                // Heart shape formation
-                // Parametric heart equation
+                // Set awal sebagai bentuk Heart
                 const t = (i / particleCount) * Math.PI * 2;
-                const u = Math.random() * 2 - 1; // depth
+                const u = Math.random() * 2 - 1; 
                 
-                // Heart shape in 3D
                 const scale = 80;
                 const x = scale * 16 * Math.pow(Math.sin(t), 3);
                 const y = scale * (13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
                 const z = u * scale * 2;
 
-                // Add some randomness for cloud effect
                 const randomOffset = 10;
                 positions[i3] = x + (Math.random() - 0.5) * randomOffset;
                 positions[i3 + 1] = y + (Math.random() - 0.5) * randomOffset;
                 positions[i3 + 2] = z + (Math.random() - 0.5) * randomOffset;
 
-                // Romantic pink to red gradient with some gold sparkles
                 const color = new THREE.Color();
                 const hue = Math.random();
                 if (hue < 0.15) {
-                    // Gold sparkles (15%)
                     color.setHSL(0.13, 0.9, 0.65);
                 } else {
-                    // Pink to red spectrum (85%)
                     color.setHSL(Math.random() * 0.08 + 0.92, 1.0, 0.6);
                 }
                 colors[i3] = color.r;
@@ -901,7 +831,7 @@
                 'rose': '🌹 ROSE BLOOM MODE',
                 'butterfly': '🦋 BUTTERFLY MODE',
                 'confetti': '🎉 BIRTHDAY CONFETTI',
-                'romantic-vortex': '💫 ROMANTIC VORTEX'
+                'romantic-vortex': '💫 PULSING VORTEX'
             };
 
             document.getElementById('particle-mode').textContent = modeText[mode] || '💝 LOVE MODE';
@@ -915,84 +845,94 @@
                 const i3 = i * 3;
                 const particle = particles[i];
 
+                let targetX, targetY, targetZ;
+                let t, r, scale;
+
                 switch (currentMode) {
                     case 'heart':
-                        // Return to heart shape formation
-                        const targetX = particle.originalPos.x;
-                        const targetY = particle.originalPos.y;
-                        const targetZ = particle.originalPos.z;
+                        // Kembali ke bentuk awal Hati (ditambah animasi mengapung lembut)
+                        targetX = particle.originalPos.x;
+                        targetY = particle.originalPos.y + Math.sin(time * 2 + i * 0.01) * 10;
+                        targetZ = particle.originalPos.z;
                         
                         positions[i3] += (targetX - positions[i3]) * 0.05;
                         positions[i3 + 1] += (targetY - positions[i3 + 1]) * 0.05;
                         positions[i3 + 2] += (targetZ - positions[i3 + 2]) * 0.05;
-                        
-                        // Add gentle floating
-                        positions[i3 + 1] += Math.sin(time * 0.5 + i * 0.01) * 0.3;
                         break;
 
                     case 'rose':
-                        // Rose bloom - spiral upward like petals
-                        const angle = (i / particleCount) * Math.PI * 2 * 5; // 5 petals
-                        const radius = (i / particleCount) * 100 + 50;
-                        const height = (i / particleCount) * 150 - 75;
+                        // Persamaan Mawar 3D (Maurer Rose)
+                        t = (i / particleCount) * Math.PI * 2 * 10; 
+                        r = 150 * Math.sin(5 * t / 2); 
                         
-                        const roseX = Math.cos(angle + time * 0.5) * radius;
-                        const roseZ = Math.sin(angle + time * 0.5) * radius;
-                        const roseY = height + Math.sin(time + i * 0.02) * 10;
-                        
-                        positions[i3] += (roseX - positions[i3]) * 0.03;
-                        positions[i3 + 1] += (roseY - positions[i3 + 1]) * 0.03;
-                        positions[i3 + 2] += (roseZ - positions[i3 + 2]) * 0.03;
+                        targetX = r * Math.cos(t);
+                        targetY = r * Math.sin(t);
+                        targetZ = -Math.abs(r) * 0.5 + 50 + Math.sin(time * 2 + i * 0.05) * 5; // 3D Depth
+
+                        positions[i3] += (targetX - positions[i3]) * 0.04;
+                        positions[i3 + 1] += (targetY - positions[i3 + 1]) * 0.04;
+                        positions[i3 + 2] += (targetZ - positions[i3 + 2]) * 0.04;
                         break;
 
                     case 'butterfly':
-                        // Butterfly wings - split into two fluttering wings
-                        const side = i < particleCount / 2 ? -1 : 1;
-                        const wingAngle = time * 2;
-                        const wingFlap = Math.sin(wingAngle) * 30 + 100;
+                        // Persamaan Kurva Kupu-Kupu Klasik
+                        t = (i / particleCount) * Math.PI * 24;
+                        const e = Math.exp(Math.cos(t)) - 2 * Math.cos(4 * t) - Math.pow(Math.sin(t / 12), 5);
+                        scale = 40;
                         
-                        const butterflyX = side * wingFlap;
-                        const butterflyY = Math.sin(time * 3 + i * 0.05) * 50;
-                        const butterflyZ = Math.cos(time * 2 + i * 0.03) * 30;
+                        targetX = Math.sin(t) * e * scale;
+                        targetY = Math.cos(t) * e * scale;
                         
-                        positions[i3] += (butterflyX - positions[i3]) * 0.05;
-                        positions[i3 + 1] += (butterflyY - positions[i3 + 1]) * 0.05;
-                        positions[i3 + 2] += (butterflyZ - positions[i3 + 2]) * 0.05;
+                        // Efek mengepakkan sayap
+                        const flap = Math.sin(time * 8) * 40;
+                        targetZ = (targetX > 0 ? flap : -flap) * (Math.abs(targetX) / 150);
+
+                        positions[i3] += (targetX - positions[i3]) * 0.05;
+                        positions[i3 + 1] += (targetY - positions[i3 + 1]) * 0.05;
+                        positions[i3 + 2] += (targetZ - positions[i3 + 2]) * 0.05;
                         break;
 
                     case 'confetti':
-                        // Birthday confetti - falling celebration
-                        positions[i3] += particle.velocity.x * 0.5;
-                        positions[i3 + 1] -= 2; // Fall down
-                        positions[i3 + 2] += particle.velocity.z * 0.5;
-                        
-                        // Spin effect
-                        const spinAngle = time * 5 + i;
-                        positions[i3] += Math.cos(spinAngle) * 0.5;
-                        positions[i3 + 2] += Math.sin(spinAngle) * 0.5;
-                        
-                        // Reset to top when too far down
-                        if (positions[i3 + 1] < -300) {
-                            positions[i3 + 1] = 300;
-                            positions[i3] = (Math.random() - 0.5) * 400;
-                            positions[i3 + 2] = (Math.random() - 0.5) * 400;
+                        // Confetti Berjatuhan dengan gravitasi dan penyebaran
+                        positions[i3] += Math.sin(time * 3 + i) * 2;
+                        positions[i3 + 1] -= (3 + (i % 3)); // Kecepatan jatuh
+                        positions[i3 + 2] += Math.cos(time * 2 + i) * 2;
+
+                        // Reset confetti ke atas jika sudah terlalu bawah
+                        if (positions[i3 + 1] < -400) {
+                            positions[i3 + 1] = 400 + Math.random() * 200;
+                            positions[i3] = (Math.random() - 0.5) * 800;
+                            positions[i3 + 2] = (Math.random() - 0.5) * 800;
                         }
                         break;
 
                     case 'romantic-vortex':
-                        // Romantic spiral vortex - like love swirling
-                        const vortexAngle = Math.atan2(positions[i3 + 1], positions[i3]);
-                        const vortexRadius = Math.sqrt(positions[i3] ** 2 + positions[i3 + 1] ** 2);
+                        // Pusaran Vortex dengan efek Pulse
+                        const currentX = positions[i3];
+                        const currentY = positions[i3 + 1];
+                        let angle = Math.atan2(currentY, currentX);
+                        let radius = Math.sqrt(currentX * currentX + currentY * currentY);
+
+                        // Tarik perlahan ke tengah (vortex)
+                        radius *= 0.96;
                         
-                        // Spiral inward and upward
-                        positions[i3] = Math.cos(vortexAngle + 0.03) * (vortexRadius * 0.99);
-                        positions[i3 + 1] = Math.sin(vortexAngle + 0.03) * (vortexRadius * 0.99);
-                        positions[i3 + 2] += Math.sin(time * 2 + i * 0.1) * 0.8;
-                        
-                        // Add heart pulse effect
-                        const pulse = Math.sin(time * 2) * 0.1 + 1;
-                        positions[i3] *= pulse;
-                        positions[i3 + 1] *= pulse;
+                        // Jika sudah tertelan ke tengah, lempar ulang ke pinggir
+                        if (radius < 5) {
+                            radius = 400;
+                            angle = Math.random() * Math.PI * 2;
+                            positions[i3 + 2] = (Math.random() - 0.5) * 200; 
+                        }
+
+                        // Kecepatan putaran makin cepat ke arah tengah
+                        const spin = 0.05 + (100 / Math.max(radius, 1)) * 0.02;
+                        angle += spin;
+
+                        // Efek Pulse Intens (Detak)
+                        const pulse = 1 + 0.3 * Math.sin(time * 10);
+
+                        positions[i3] = Math.cos(angle) * radius * pulse;
+                        positions[i3 + 1] = Math.sin(angle) * radius * pulse;
+                        positions[i3 + 2] += (0 - positions[i3 + 2]) * 0.1; // Ratakan sedikit bagian tengah
                         break;
                 }
             }
