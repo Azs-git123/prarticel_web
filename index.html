@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LearnIT — Belajar IT Lebih Mudah</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand logo-text" href="#" onclick="showPage('home')">LearnIT</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav me-auto ms-3">
+        <li class="nav-item"><a class="nav-link nav-page-link active" href="#" onclick="showPage('home')">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" id="tutorialNavBtn" onclick="openTutorialPopup(event)">Tutorial</a></li>
+      </ul>
+      <ul class="navbar-nav ms-auto align-items-center gap-2">
+        <li class="nav-item"><a class="nav-link nav-page-link" href="#" onclick="showPage('about')">About</a></li>
+        <li class="nav-item"><a class="nav-link nav-page-link" href="#" onclick="showPage('contact')">Contact Us</a></li>
+        <li class="nav-item">
+          <button class="btn btn-theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle tema">
+            <i class="bi bi-sun-fill" id="themeIcon"></i>
+          </button>
+        </li>
+        <li class="nav-item"><a class="btn btn-outline-accent" href="#" onclick="showPage('signin')">Sign In</a></li>
+        <li class="nav-item"><a class="btn btn-accent" href="#" onclick="showPage('signup')">Sign Up</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== TUTORIAL POPUP OVERLAY ===== -->
+<div id="tutorialOverlay" class="tutorial-overlay" onclick="closeTutorialPopup(event)">
+  <div class="tutorial-popup" id="tutorialPopup">
+    <div class="tutorial-popup-header">
+      <h5 class="popup-title"><i class="bi bi-grid-3x3-gap-fill me-2"></i>Semua Tutorial</h5>
+      <button class="btn-close-popup" onclick="closeTutorialPopupBtn()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="tutorial-popup-body">
+      <div class="row g-3">
+        <div class="col-6 col-md-4">
+          <div class="popup-card" onclick="showPage('tutorial','Linux')">
+            <span class="popup-icon">🐧</span>
+            <div class="popup-card-info">
+              <div class="popup-card-name">Linux</div>
+              <div class="popup-card-desc">Basic Command & Bash Scripting</div>
+            </div>
+            <div class="popup-badges"><span class="badge-level green">Pemula</span><span class="badge-level popular">Populer</span></div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4">
+          <div class="popup-card" onclick="showPage('tutorial','Python')">
+            <span class="popup-icon">🐍</span>
+            <div class="popup-card-info">
+              <div class="popup-card-name">Python</div>
+              <div class="popup-card-desc">Pengenalan dan syntax dasar Python</div>
+            </div>
+            <div class="popup-badges"><span class="badge-level green">Pemula</span><span class="badge-level popular">Populer</span></div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4">
+          <div class="popup-card" onclick="showPage('tutorial','HTML & CSS')">
+            <span class="popup-icon">🌐</span>
+            <div class="popup-card-info">
+              <div class="popup-card-name">HTML & CSS</div>
+              <div class="popup-card-desc">Dasar HTML & CSS membuat web</div>
+            </div>
+            <div class="popup-badges"><span class="badge-level green">Pemula</span><span class="badge-level popular">Populer</span></div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4">
+          <div class="popup-card" onclick="showPage('tutorial','JavaScript')">
+            <span class="popup-icon">⚡</span>
+            <div class="popup-card-info">
+              <div class="popup-card-name">JavaScript</div>
+              <div class="popup-card-desc">Membuat web lebih hidup dan intraktif</div>
+            </div>
+            <div class="popup-badges"><span class="badge-level yellow">Menengah</span><span class="badge-level popular">Populer</span></div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4">
+          <div class="popup-card" onclick="showPage('tutorial','SQL')">
+            <span class="popup-icon">🗄️</span>
+            <div class="popup-card-info">
+              <div class="popup-card-name">SQL</div>
+              <div class="popup-card-desc">Membuat dan Manajemen Database</div>
+            </div>
+            <div class="popup-badges"><span class="badge-level yellow">Menengah</span></div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4">
+          <div class="popup-card" onclick="showPage('tutorial','Git')">
+            <span class="popup-icon">🔀</span>
+            <div class="popup-card-info">
+              <div class="popup-card-name">Git</div>
+              <div class="popup-card-desc">Version Control System dengan Git</div>
+            </div>
+            <div class="popup-badges"><span class="badge-level yellow">Menengah</span></div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4">
+          <div class="popup-card" onclick="showPage('tutorial','PHP')">
+            <span class="popup-icon">🐘</span>
+            <div class="popup-card-info">
+              <div class="popup-card-name">PHP</div>
+              <div class="popup-card-desc">Pengenalan dan syntax dasar PHP</div>
+            </div>
+            <div class="popup-badges"><span class="badge-level green">Pemula</span></div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4">
+          <div class="popup-card" onclick="showPage('tutorial','Docker')">
+            <span class="popup-icon">🐳</span>
+            <div class="popup-card-info">
+              <div class="popup-card-name">Docker</div>
+              <div class="popup-card-desc">Membuat kontainer menggunakan Docker</div>
+            </div>
+            <div class="popup-badges"><span class="badge-level yellow">Menengah</span></div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4">
+          <div class="popup-card" onclick="showPage('tutorial','React')">
+            <span class="popup-icon">⚛️</span>
+            <div class="popup-card-info">
+              <div class="popup-card-name">React</div>
+              <div class="popup-card-desc">Framework JavaScript modern</div>
+            </div>
+            <div class="popup-badges"><span class="badge-level red">Lanjutan</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGES WRAPPER ===== -->
+<div id="appContent">
+
+  <!-- ========== HOME PAGE ========== -->
+  <div id="page-home" class="page active">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container text-center">
+        <h1 class="hero-title">BELAJAR IT LEBIH MUDAH</h1>
+        <p class="hero-subtitle">Tutorial IT lengkap mulai dari Linux, Python, HTML, CSS, JS dan masih banyak lagi.<br>Gratis, intraktif, dan mudah dipahami.</p>
+        <div class="hero-actions mt-4">
+          <a href="#" class="btn btn-accent btn-lg me-2" onclick="openTutorialPopup(event)">Mulai Belajar</a>
+          <a href="#" class="btn btn-outline-accent btn-lg" onclick="showPage('about')">Tentang Kami</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scrolling Cards Row 1 (left→right) -->
+    <section class="scroll-section py-3">
+      <div class="scroll-label"><span>Tutorial Populer</span></div>
+      <div class="scroll-track-wrapper">
+        <div class="scroll-track" id="track1">
+          <!-- cards duplicated for infinite scroll via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Scrolling Cards Row 2 (right→left) -->
+    <section class="scroll-section pb-5">
+      <div class="scroll-label"><span>Tutorial Lainnya</span></div>
+      <div class="scroll-track-wrapper">
+        <div class="scroll-track reverse" id="track2">
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ========== ABOUT PAGE ========== -->
+  <div id="page-about" class="page">
+    <!-- About Hero -->
+    <section class="about-hero-section">
+      <div class="container text-center">
+        <h1 class="about-hero-title">Tentang LearnIT</h1>
+        <p class="about-hero-sub">LearnIT adalah platform belajar IT gratis yang dibangun oleh komunitas dan para ahli yang berbagi pengetahuan.</p>
+        <p class="about-hero-sub2">Kamu juga bisa berkontribusi dengan mengirimkan materi melalui kontak kami.</p>
+      </div>
+    </section>
+
+    <!-- Contributor scroll row 1 (left→right) -->
+    <section class="scroll-section py-4">
+      <div class="scroll-label text-center"><span>Berkontribusi bersama kami</span></div>
+      <div class="scroll-track-wrapper">
+        <div class="scroll-track" id="contrib-track1"></div>
+      </div>
+    </section>
+
+    <!-- Contributor scroll row 2 (right→left) -->
+    <section class="scroll-section pb-5">
+      <div class="scroll-track-wrapper">
+        <div class="scroll-track reverse" id="contrib-track2"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ========== CONTACT PAGE ========== -->
+  <div id="page-contact" class="page">
+    <div class="container-fluid px-0" style="min-height:calc(100vh - 64px); display:flex; flex-direction:column;">
+      <div class="row g-0 flex-grow-1" style="min-height:calc(100vh - 64px);">
+        <!-- Left info panel -->
+        <div class="col-lg-5 col-md-5 contact-info-panel d-flex flex-column justify-content-center px-5 py-5">
+          <h2 class="contact-panel-title">Hubungi Kami</h2>
+          <p class="contact-panel-desc">Ada pertanyaan, saran, atau ingin berkontribusi dengan kami?</p>
+          <div class="contact-item mt-4">
+            <div class="contact-icon-wrap"><i class="bi bi-envelope-fill"></i></div>
+            <div>
+              <div class="contact-item-label">Email</div>
+              <div class="contact-item-val">alliot@lernit.io</div>
+            </div>
+          </div>
+          <div class="contact-item mt-3">
+            <div class="contact-icon-wrap"><i class="bi bi-telephone-fill"></i></div>
+            <div>
+              <div class="contact-item-label">Kontak</div>
+              <div class="contact-item-val">9999990000</div>
+            </div>
+          </div>
+        </div>
+        <!-- Right form panel -->
+        <div class="col-lg-7 col-md-7 contact-form-panel d-flex flex-column justify-content-center px-5 py-5">
+          <h3 class="contact-form-title">Kirim pesan</h3>
+          <div class="mt-3">
+            <input type="text" class="form-control custom-input mb-3" placeholder="Nama" />
+            <input type="email" class="form-control custom-input mb-3" placeholder="Email" />
+            <input type="text" class="form-control custom-input mb-3" placeholder="Subject" />
+            <textarea class="form-control custom-input mb-3" rows="5" placeholder="Pesan"></textarea>
+            <button class="btn btn-accent w-100 py-2 fw-bold">Kirim</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SIGN IN PAGE ========== -->
+  <div id="page-signin" class="page">
+    <div class="auth-wrapper d-flex align-items-center justify-content-center">
+      <div class="auth-card">
+        <h2 class="auth-title text-center">Selamat datang kembali</h2>
+        <p class="auth-subtitle text-center">Masuk ke akun Anda</p>
+        <input type="text" class="form-control custom-input mb-3" placeholder="Email atau Username" />
+        <input type="password" class="form-control custom-input mb-3" placeholder="Password" />
+        <div class="text-end mb-3"><a href="#" class="auth-link">Lupa Password?</a></div>
+        <button class="btn btn-accent w-100 py-2 fw-bold mb-3">MASUK</button>
+        <p class="text-center auth-footer-text">Belum punya akun? <a href="#" class="auth-link" onclick="showPage('signup')">Daftar</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SIGN UP PAGE ========== -->
+  <div id="page-signup" class="page">
+    <div class="auth-wrapper d-flex align-items-center justify-content-center">
+      <div class="auth-card">
+        <h2 class="auth-title text-center">Buat akun baru</h2>
+        <p class="auth-subtitle text-center">Buat akun gratis dan mulai belajar sekarang</p>
+        <input type="text" class="form-control custom-input mb-3" placeholder="Nama Lengkap" />
+        <input type="text" class="form-control custom-input mb-3" placeholder="Username" />
+        <input type="email" class="form-control custom-input mb-3" placeholder="Email" />
+        <input type="password" class="form-control custom-input mb-3" placeholder="Password" />
+        <input type="password" class="form-control custom-input mb-3" placeholder="Konfirmasi Password" />
+        <div class="form-check mb-3">
+          <input class="form-check-input custom-check" type="checkbox" id="agreeCheck" />
+          <label class="form-check-label auth-footer-text" for="agreeCheck">Saya setuju dengan syarat &amp; ketentuan</label>
+        </div>
+        <button class="btn btn-accent w-100 py-2 fw-bold mb-3">BUAT AKUN</button>
+        <p class="text-center auth-footer-text">Sudah punya akun? <a href="#" class="auth-link" onclick="showPage('signin')">Masuk</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== TUTORIAL PAGE ========== -->
+  <div id="page-tutorial" class="page">
+    <div class="tutorial-layout">
+      <!-- Sidebar -->
+      <aside class="tut-sidebar" id="tutSidebar">
+        <div class="tut-sidebar-header">
+          <h6 class="tut-sidebar-title" id="tutSidebarTitle">Linux Tutorial</h6>
+          <button class="sidebar-close-btn d-lg-none" onclick="closeSidebar()"><i class="bi bi-x-lg"></i></button>
+        </div>
+        <div id="tutSidebarMenu">
+          <!-- Dynamic menu injected by JS -->
+        </div>
+      </aside>
+
+      <!-- Main content -->
+      <main class="tut-main">
+        <div class="tut-mobile-header d-lg-none">
+          <button class="btn btn-sm btn-outline-accent" onclick="openSidebar()"><i class="bi bi-list"></i> Menu</button>
+          <span class="tut-breadcrumb-mobile" id="tutBreadcrumbMobile">Tutorial</span>
+        </div>
+        <div class="tut-content-area">
+          <div class="tut-breadcrumb mb-3" id="tutBreadcrumb">Tutorial › <span class="accent-text">Linux</span> › Pengenalan Linux</div>
+          <h2 class="tut-content-title" id="tutContentTitle">Pengenalan Linux</h2>
+          <div class="tut-content-body" id="tutContentBody">
+            <p>Linux adalah sistem operasi open-source berbasis kernel Unix yang sangat populer di kalangan developer, sysadmin, dan pengguna teknis. Linux digunakan secara luas di server, superkomputer, embedded systems, dan Android.</p>
+            <div class="tut-note info">
+              <i class="bi bi-info-circle-fill me-2"></i>
+              <strong>Catatan:</strong> Tutorial ini menggunakan distribusi Ubuntu. Beberapa perintah mungkin sedikit berbeda di distribusi lain.
+            </div>
+            <h5 class="mt-4 mb-2">Cek Versi Linux</h5>
+            <div class="code-block">
+              <div class="code-block-header"><span class="lang-label">bash</span><button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard"></i> Salin</button></div>
+              <pre class="code-pre"><code><span class="cmd">$</span> uname -a
+<span class="cmt"># Output: Linux ubuntu 5.15.0 #1 SMP x86_64 GNU/Linux</span>
+
+<span class="cmd">$</span> lsb_release -a
+<span class="cmt"># Cek detail distribusi Ubuntu</span></code></pre>
+            </div>
+            <h5 class="mt-4 mb-2">Kenapa Belajar Linux?</h5>
+            <p>Linux digunakan di lebih dari 90% server web di dunia. Menguasai Linux membuka peluang karir di bidang DevOps, cloud computing, dan system administration.</p>
+            <div class="tut-note warning">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>
+              <strong>Perhatian:</strong> Pastikan kamu memiliki akses ke terminal Linux atau bisa menggunakan WSL (Windows Subsystem for Linux) di Windows.
+            </div>
+          </div>
+          <div class="tut-nav-btns d-flex justify-content-between mt-4">
+            <button class="btn btn-tut-nav">← Sebelumnya</button>
+            <button class="btn btn-tut-nav next" onclick="nextTutorialItem()">Berikutnya →</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+</div><!-- end appContent -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
