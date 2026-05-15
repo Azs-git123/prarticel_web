@@ -65,14 +65,20 @@ html, body {
 
 a { text-decoration: none; color: inherit; }
 
-#mainNav {
+/* #mainNav {
   height: var(--nav-height);
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border);
   z-index: 1050;
   transition: background var(--transition), border-color var(--transition);
+} */
+#mainNav {
+  min-height: var(--nav-height); /* PERUBAHAN: Menjadi min-height */
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  z-index: 1050;
+  transition: background var(--transition), border-color var(--transition);
 }
-
 .logo-text {
   font-family: var(--font-mono);
   font-size: 1.3rem;
