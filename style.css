@@ -669,7 +669,7 @@ a { text-decoration: none; color: inherit; }
   font-weight: 600;
 }
 .btn-tut-nav.next:hover { opacity: 0.85; }
-
+/* 
 @media (max-width: 991.98px) {
   .tut-sidebar {
     position: fixed;
@@ -703,7 +703,52 @@ a { text-decoration: none; color: inherit; }
 }
 .tutorial-overlay.visible {
   display: flex;
+} */
+
+/* ===== PERBAIKAN NAVBAR MOBILE (RATA TENGAH) ===== */
+@media (max-width: 991.98px) {
+  /* 1. Memberi ruang napas atas-bawah saat menu terbuka */
+  .navbar-collapse {
+    padding-top: 15px;
+    padding-bottom: 20px;
+  }
+
+  /* 2. Memaksa KEDUA kelompok menu (ul) agar sejajar di tengah */
+  .navbar-nav {
+    align-items: center !important; 
+    text-align: center;
+    width: 100%;
+  }
+
+  /* 3. MENGHAPUS margin bawaan Bootstrap yang membuat posisinya miring */
+  .navbar-nav.me-auto,
+  .navbar-nav.ms-auto,
+  .navbar-nav.ms-3 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* 4. Menyesuaikan jarak antar link teks (Home, Tutorial, About, dll) */
+  .navbar-nav .nav-item {
+    width: 100%;
+  }
+  .navbar-nav .nav-link {
+    padding: 10px 0; /* Memberi jarak klik yang nyaman untuk jari */
+  }
+
+  /* 5. Mengatur Tombol Sign In & Sign Up agar rapi di tengah */
+  .navbar-nav .btn {
+    width: 80%; /* Tidak 100% agar tidak mentok ke pinggir layar ponsel */
+    max-width: 320px; /* Batas maksimal lebar tombol */
+    margin-top: 12px;
+  }
+
+  /* 6. Memastikan tombol tema (Matahari/Bulan) presisi di tengah */
+  .btn-theme-toggle {
+    margin: 12px auto;
+  }
 }
+
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 .tutorial-popup {
